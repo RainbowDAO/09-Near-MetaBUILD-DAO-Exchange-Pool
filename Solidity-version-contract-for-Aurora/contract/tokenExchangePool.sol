@@ -7,6 +7,9 @@ contract tokenExchangePool{
     
     address public manager;
     
+    mapping(address => bool) public allowTken;
+
+    
     event tokenExchangeAmount (address tokenIn, address tokenTo, address to, uint value );
     constructor (address owner){
         manager = owner;
@@ -15,7 +18,11 @@ contract tokenExchangePool{
         require(msg.sender == manager , "you are not manager");
         _;
     }
-    function tokenExchange(address tokenIn, address tokenTo, address to, uint value) external {
+    function tokenAllow(address token) public onlyManager {
+        allowTken[token] = true;
+    }
+    function tokenExchange(address tokenIn, address tokenTo, address to, uint value) external {\
+        require()
         ERC20(tokenIn).transferFrom(to, address(this), value);
         ERC20(tokenTo).transfer(to, value);
         emit tokenExchangeAmount(tokenIn, tokenTo, to, value);

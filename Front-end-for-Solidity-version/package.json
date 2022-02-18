@@ -1,5 +1,5 @@
 {
-  "name": "DAO Exchange Pool",
+  "name": "exchange",
   "version": "0.1.0",
   "private": true,
   "scripts": {
