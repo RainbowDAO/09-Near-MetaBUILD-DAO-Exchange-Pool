@@ -9,6 +9,7 @@ import "../lib/TransferHelper.sol";
 contract creatTokenExchange {
     uint public digOutAmount;
     uint public allReceived;
+    uint public lockTime;
     event PurchaseRecord (address  User , uint indexed tokenAmount , uint indexed rbtAmount ,address indexed tokenAddress);
     mapping(address => Record[]) public lockUpTotal;
 
@@ -40,6 +41,9 @@ contract creatTokenExchange {
     }
     function setExchangeRate(uint rate) public onlyAdmin {
         exchangeRate = rate;
+    }
+    function setLockTime(uint _lockTime) public onlyAdmin{
+        lockTime = _lockTime;
     }
     function exchange(uint value , uint _lockTime) public {
 

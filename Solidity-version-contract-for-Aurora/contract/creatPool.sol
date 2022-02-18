@@ -5,13 +5,13 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "./creatTokenExchange.sol";
 
 contract creatPool is Ownable{
-    address  public pool;
+    address public pool;
     
     mapping(address => address) public poolOwner;
     
     function init(address seed, address token, address user)public  onlyOwner{
-        bank = address(new creatTokenExchange(user));
-
+        pool = address(new creatTokenExchange(seed ,token,user));
+        poolOwner[user] = pool;
     }
   
 
