@@ -10,12 +10,17 @@ contract creatPool is Ownable{
     mapping(address => address) public poolOwner;
     
     function init(address seed, address token, address user)public  onlyOwner{
-        pool = address(new creatTokenExchange(seed ,token,user));
+        pool = address(new creatTokenExchange(seed ,token, user));
         poolOwner[user] = pool;
     }
-  
+    function setLockTime(uint lockTime) public {
+        creatTokenExchange(pool).setLockTime(lockTime);
+    }
+    function setExchangeRate(uint rate) public {
+        creatTokenExchange(pool).setExchangeRate(rate);
+    }
 
-    function detonate() public  onlyOwner {
+    function detonate() public onlyOwner {
         selfdestruct(payable(owner()));
     }
 

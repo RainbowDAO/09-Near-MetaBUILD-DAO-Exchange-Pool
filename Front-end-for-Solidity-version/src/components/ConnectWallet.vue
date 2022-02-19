@@ -6,7 +6,7 @@
       {{ account.substr(0, 6) + '...' + account.substr(39, 3) }}
     </button>
     <button size="mini" @click="showWallet" v-show="!isConnected" class="button-connect">
-      Connect Rinkeby
+      Connect Aurora
     </button>
     <div v-show="isShowConnectStatus" class="connect-panel " @click="isShowConnectStatus=false">
       <div class="mask"></div>
@@ -64,10 +64,28 @@ export default {
       this.connectIdx = idx
       this.isLoading = true
 
+
       window.ethereum.request({
-        method: 'wallet_switchEthereumChain',
-        params: [{chainId: '0x4'}],
-      });
+        method: 'wallet_addEthereumChain',
+        params: [{
+          chainId: "0x4E454153",
+          chainName: "aurora",
+          rpcUrls: [
+            "https://testnet.aurora.dev",
+          ],
+          iconUrls: [
+            ""
+          ],
+          blockExplorerUrls: [
+            "https://explorer.testnet.aurora.dev/"
+          ],
+          nativeCurrency: {
+            name: "ETH",
+            symbol: "ETH",
+            decimals: 18
+          }
+        }]
+      })
       if (idx == 1) {
         if (typeof window.ethereum == 'undefined') {
           this.$message.error("down metamask")

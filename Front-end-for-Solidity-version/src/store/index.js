@@ -6,6 +6,7 @@ import daoFactory from "./modules/daoFactory";
 import daoManage from "./modules/daoManage";
 import vault from "./modules/vault";
 import erc20 from "./modules/erc20";
+import creatTokenExchange from "./modules/creatTokenExchange";
 
 Vue.use(Vuex)
 
@@ -16,6 +17,7 @@ export default new Vuex.Store({
     daoFactory,
     daoManage,
     vault,
-    erc20
+    erc20,
+    creatTokenExchange,
   }
 })

@@ -1,4 +1,4 @@
-# RainbowDaoFactory-Frontend
+# ExchangePool-Frontend
 
 ## Config
 

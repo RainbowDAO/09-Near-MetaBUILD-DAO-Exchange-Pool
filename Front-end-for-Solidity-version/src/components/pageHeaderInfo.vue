@@ -2,7 +2,7 @@
   <div class="dao-finance-header-box">
     <div class="nodata" v-show="!daoInfo.name">
       <div class="rainbow-button" @click="$router.push({name:'createExchange'})">
-        Create Exchange Factory
+        Create Exchange Pool
       </div>
     </div>
     <div class="dao-finance-header" v-show="daoInfo.name">

@@ -1,7 +1,7 @@
 <template>
   <div class="vaults">
     <div class="vault-list">
-      <div class="item" @click="chooseDao(item)" v-for="(item,index) in vaultList" :key="index">
+      <div class="item" @click="chooseItem(item)" v-for="(item,index) in vaultList" :key="index">
         <div class="logo">
           <img :src="item.logo" alt="">
         </div>
@@ -26,8 +26,8 @@ export default {
   name: "vaultHome",
   props:["vaultList"],
   methods:{
-    chooseDao(item){
-      this.$emit("chooseDao",item)
+    chooseItem(item){
+      this.$emit("chooseItem",item)
     }
   }
 }

@@ -33,7 +33,13 @@ export default {
     position: relative;
     z-index: 1;
   }
-
+  .no-data{
+    display: flex;
+    justify-content: center;
+    img{
+      width: 300px;
+    }
+  }
   .nodata {
     text-align: center;
     padding: 50px;

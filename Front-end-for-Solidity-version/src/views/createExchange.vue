@@ -7,62 +7,52 @@
       Create a Exchange Pool
     </div>
     <div class="progress-box">
-      <div class="item animate__animated animate__fadeIn" :class="{'active':activeIndex==0}">
+      <div class="item animate__animated animate__fadeIn" :class="{'active':activeIndex>=0}">
         1
       </div>
-      <div class="item animate__animated animate__fadeIn" :class="{'active':activeIndex==1}">
+      <div class="item animate__animated animate__fadeIn" :class="{'active':activeIndex>=1}">
         2
       </div>
-      <div class="item animate__animated animate__fadeIn" :class="{'active':activeIndex==2}">
+      <div class="item animate__animated animate__fadeIn" :class="{'active':activeIndex>=2}">
         3
       </div>
-      <div class="item animate__animated animate__fadeIn" :class="{'active':activeIndex==3}">
+      <div class="item animate__animated animate__fadeIn" :class="{'active':activeIndex>=3}">
         4
       </div>
     </div>
     <div class="step1 animate__animated animate__fadeIn" v-show="activeIndex==0">
       <div class="sub-title">
-        Locked Vault Parameters
+        Basic Information
       </div>
-      <div class="value">
-        Other addresses accidentally send coins to the vault address, and you must wait for the full unlock time to end
-        before you can claim them
+
+      <div class="input-box">
+        <div class="name">
+          Factory Name
+        </div>
+        <input type="text" v-model = "this.factoryName" placegolder="Name">
       </div>
       <div class="input-box">
         <div class="name">
-          Vault Name
+          Factory Logo
         </div>
-        <input type="text" placegolder="Name">
+        <input type="text" v-model = "this.factoryLogo" placegolder="Enter">
       </div>
       <div class="input-box">
         <div class="name">
-          Vault Logo
+          Factory Introduction
         </div>
-        <input type="text" placegolder="Enter">
+        <input type="text" v-model = "this.factoryintr" placegolder="Enter">
       </div>
-      <div class="input-box">
-        <div class="name">
-          Set a full closure time
-        </div>
-        <input type="text" placegolder="Enter">
-      </div>
-      <div class="value">
-        During this time, no one can withdraw money
-      </div>
-      <div class="input-box">
-        <div class="name">
-          Monthly release ratio during release period
-        </div>
-        <input type="text" placegolder="Enter">
-      </div>
+
+
       <div class="tip">
-        <input type="checkbox"> The release period is 12 months, and the final full unlock time is 24 months
+        In this token exchange factory, only one-way exchange is supported. (For example: there is an initial token RRB
+        in the exchange pool. According to the agreement of the creator of the exchange pool, only RRA is allowed to
+        exchange for RHC. The exchanger can only exchange the RRB in his wallet for the RRA in the pool, and cannot
+        exchange RRA for the RRA in the pool. RRB)
       </div>
-      <div class="tip">
-        Whether to choose to release by day every month (30 days)
-        <div class="w-tip">
-          The daily release ratio is 10%
-        </div>
+      <div class="tip" style="display: flex;align-items: center;user-select: none" @click="isChecked=!isChecked">
+        <input type="checkbox" v-model="isChecked"> I have understood
       </div>
       <div class="rainbow-button next-btn" @click="next">
         NEXT
@@ -70,60 +60,106 @@
     </div>
     <div class="step2 animate__animated animate__fadeIn" v-show="activeIndex==1">
       <div class="sub-title">
-        Designated recipient address
+        Token Settings
       </div>
-      <div class="select-box">
-        <div class="select-title">
-          Receive settings
+      <div class="step2-content">
+        <div class="left">
+          <div class="input-box">
+            <div class="name">
+              Initial exchange pool token holder address
+            </div>
+            <input type="text" placeholder="address">
+          </div>
+          <div class="input-box">
+            <div class="name">
+              Token Address
+            </div>
+            <input type="text" v-model = "this.tokenAddr" placeholder="ABT">
+          </div>
+          <div class="input-box">
+            <div class="name">
+              Token Symbol
+            </div>
+            <input type="text" placeholder="ABT">
+          </div>
+          <div class="input-box">
+            <div class="name">
+              Circulation
+            </div>
+            <input type="text" placeholder="100,000,000">
+          </div>
         </div>
-        <select v-model="selectIndex" @change="getSelected">
-          <option selected value="0"> To be collected by the depositor</option>
-          <option value="1"> Depositor's Authorization to Claim</option>
-        </select>
+       
       </div>
-      <div class="address-box" v-show="selectIndex==1">
-        <div class="address-list">
-          <div class="item">
-            <div class="address">
-              Address
-            </div>
-            <div class="ratio">
-              Ratio
-            </div>
-          </div>
-          <div class="item" v-for="i in recipientNumber" :key="i">
-            <div class="address">
-              <input type="text" v-model="recipientList[i-1].address">
-            </div>
-            <div class="ratio">
-              <input type="text" v-model="recipientList[i-1].ratio">
-            </div>
-          </div>
-          <div class="item">
-            <div class="rainbow-button add-btn" @click="addAddr">
-              ADD
-            </div>
-          </div>
+      <div class="rainbow-button next-btn" @click="next">
+        NEXT
+      </div>
+    </div>
+    <div class="step3 animate__animated animate__fadeIn" v-show="activeIndex==2">
+      <div class="sub-title">
+        Exchange Time
+      </div>
+      <div class="time-box">
+        <div class="name">
+          Exchange start time
+        </div>
+        <div class="inputs">
+          <input type="text"> Year <input type="text"> Month <input type="text" v-model = "this.timeA"  > Days
+        </div>
+      </div>
+      <div class="time-box">
+        <div class="name">
+          Exchange end time
+        </div>
+        <div class="inputs">
+          <input type="text"> Year <input type="text"> Month <input type="text" v-model = "this.timeB"> Days
         </div>
       </div>
       <div class="tip">
-        <input type="checkbox">
-        Whether the depositor can terminate the authorization to withdraw
+        *It can only be exchanged during this time period, and cannot be exchanged at other times. The exchanger can
+        withdraw and sell tokens at any time after the exchange. The creator of the exchange pool can only propose to
+        exchange tokens after the exchange time expires. If there are still tokens left for sale after the exchange time
+        ends, they can also propose. During the entire exchange period, the creator cannot withdraw the sold tokens and
+        exchange tokens.
       </div>
-      <div class="value">
-        After terminating the claim permission of an address, the unclaimed tokens cannot be claimed by the address! The
-        withdrawal authority becomes the depositor itself, and can be withdrawn by the depositor after the full
-        unlocking time is over
-      </div>
-      <div class="sub-title">
-        Locked Vault Withdrawal
-      </div>
-      <p>
-        The depositor or the authorized receiving address will receive the corresponding funds from the lock-up vault
-        according to the lock-up agreement. And the payer pays a certain service fee
-      </p>
       <div class="rainbow-button next-btn" @click="next">
         NEXT
+      </div>
+    </div>
+    <div class="step1 animate__animated animate__fadeIn" v-show="activeIndex==3">
+      <div class="sub-title">
+        Sell Tokens
+      </div>
+      <div class="input-box">
+        <div class="name">
+          Tokens for sale
+        </div>
+        <input type="text" placeholder="ETH">
+      </div>
+      <div class="input-box">
+        <div class="name">
+          Price per piece
+        </div>
+        <input type="text" placeholder="100,000">
+      </div>
+      <div class="input-box">
+        <div class="name">
+          Amount raised
+        </div>
+        <input type="text" placeholder="1000">
+      </div>
+      <div class="input-box">
+        <div class="name">
+          Amount of injected tokens
+        </div>
+        <input type="text" placeholder="Enter">
+      </div>
+      <div class="tip">
+        Must be greater than at least the number of sold tokens injected, if not greater than the amount raised or the
+        price of each sold token must be modified.
+      </div>
+      <div class="rainbow-button next-btn" @click="complete">
+        COMPLETE
       </div>
     </div>
   </div>
@@ -134,35 +170,100 @@ export default {
   name: "createExchange",
   data() {
     return {
-      recipientList:[{}],
+      factoryName:'name',
+      factoryLogo:'logo',
+      factoryintr:'intr',
+      tokenAddr:'0x47A6815030E2706b7D2A67113b9aac5e5C10Ed1E',
+      timeA:0,
+      timeB:0,
+      recipientList: [{}],
       activeIndex: 0,
-      selectIndex:0,
-      recipientNumber:1
+      selectIndex: 0,
+      recipientNumber: 1,
+      isChecked: false
     }
   },
   methods: {
     next() {
       this.activeIndex++
     },
-    getSelected(){
+    getSelected() {
 
     },
-    addAddr(){
+    addAddr() {
       this.recipientNumber++
       this.recipientList.push({})
+    },
+    complete(){
+      console.log("123")
+      console.log(this.tokenAddr)
+      this.$store.dispatch("creatTokenExchange/setBaseInfo",{
+        pname:this.factoryName,
+        logoUrl:this.factoryLogo,
+        _introduction:this.factoryintr,
+        tokenAddr:this.tokenAddr,
+        _Stime:this.timeA,
+        _Etime:this.timeB,
+        })
+
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.address-box{
-  .address-list{
-    .item{
+.time-box {
+  .name {
+    padding: 20px 0;
+  }
+
+  .inputs {
+    display: flex;
+    align-items: center;
+
+    input {
+      margin: 0 10px;
+      width: 110px;
+      height: 36px;
+      background: #f6f5fa;
+      border: 1px solid #eaeaea;
+      border-radius: 10px;
+      padding: 0 10px;
+    }
+  }
+}
+
+.inline {
+  display: flex;
+  margin-top: 10px;
+
+  .name {
+    min-width: 300px;
+  }
+}
+
+.step2-content {
+  width: 1000px;
+  display: flex;
+  justify-content: space-between;
+
+  .left, .right {
+    width: 50%;
+  }
+
+  .input-box {
+    width: 100%;
+  }
+}
+
+.address-box {
+
+  .address-list {
+    .item {
       display: flex;
       padding: 10px 0;
 
-      input{
+      input {
         width: 100%;
         height: 50px;
         background: #f6f5fa;
@@ -170,20 +271,24 @@ export default {
         border-radius: 10px;
         padding: 0 10px;
       }
-      .address{
+
+      .address {
         width: 446px;
       }
-      .ratio{
+
+      .ratio {
         margin-left: 10px;
         width: 184px;
       }
-      .add-btn{
+
+      .add-btn {
         width: 60px;
         height: 36px;
       }
     }
   }
 }
+
 .next-btn {
   margin-top: 100px;
   width: 200px;
@@ -191,15 +296,20 @@ export default {
 }
 
 .tip {
-  margin: 10px 0;
-
-  .w-tip {
-    color: #BCBCBC;
-  }
+  margin-top: 30px;
+  width: 640px;
+  opacity: 0.6;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: justify;
+  color: #ff1f84;
+  line-height: 24px;
 }
-p{
+
+p {
   width: 640px;
 }
+
 .sub-title {
   font-size: 24px;
   font-weight: 500;
@@ -235,6 +345,7 @@ p{
     text-align: center;
     line-height: 30px;
     font-weight: bold;
+
     &:after {
       content: '';
       width: 60px;

@@ -9,8 +9,29 @@
       </div>
     </div>
     <div class="vault-balance">
-      <div class="balance">
-        {{vaultBalance}}
+      <div class="funds">
+        <div class="item">
+          <div class="name">
+            Current Initial Token Amount
+          </div>
+          <div class="value-box">
+            <img class="icon" src="../assets/sub-icon.png" alt="">
+            <div class="value">
+              5,000,000.00 <span>RBD</span>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="name">
+            Current Number of Exchange Tokens
+          </div>
+          <div class="value-box">
+            <img class="icon" src="../assets/sub-icon.png" alt="">
+            <div class="value">
+              5,000,000.00 <span>RBD</span>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="btn-box">
         <div class="rainbow-button" @click="isShowExchangeDialog= true">
@@ -93,8 +114,19 @@
         </div>
       </div>
     </div>
-    <div class="withdrawal-title">
-      Withdrawal Records
+    <div class="rainbow-table-header">
+      <div class="table-title">
+        Exchange Records
+      </div>
+      <div class="right">
+        <div class="search-box">
+          <input type="text">
+          <img class="icon" src="../assets/search.png" alt="">
+        </div>
+        <div class="rainbow-button">
+          INITIATE
+        </div>
+      </div>
     </div>
     <div class="rainbow-single-list">
       <div class="list-header">
@@ -117,6 +149,49 @@
             {{item}}
           </div>
         </div>
+      </div>
+      <div class="no-data" v-show="withdrawalList.length==0">
+        <img src="../assets/no-data.png" alt="">
+      </div>
+    </div>
+    <div class="rainbow-table-header">
+      <div class="table-title">
+        Withdrawal Records
+      </div>
+      <div class="right">
+        <div class="search-box">
+          <input type="text">
+          <img class="icon" src="../assets/search.png" alt="">
+        </div>
+        <div class="rainbow-button">
+          INITIATE
+        </div>
+      </div>
+    </div>
+    <div class="rainbow-single-list">
+      <div class="list-header">
+        <div class="item">
+          ID
+        </div>
+        <div class="item">
+          Withdrawal address
+        </div>
+        <div class="item">
+          Withdrawal time
+        </div>
+        <div class="item">
+          Withdrawal amount
+        </div>
+      </div>
+      <div class="list-content">
+        <div class="list-item" v-for="(item,index) in withdrawalList" :key="index">
+          <div class="id">
+            {{item}}
+          </div>
+        </div>
+      </div>
+      <div class="no-data" v-show="withdrawalList.length==0">
+        <img src="../assets/no-data.png" alt="">
       </div>
     </div>
   </div>
@@ -143,13 +218,13 @@
           Extract quantity
         </div>
         <div class="right">
-          <input type="text" placeholder="Enter">
+          <input type="text" v-model = "this.withdrawAmount" placeholder="Enter">
           <div class="rainbow-button">
             ALL
           </div>
         </div>
       </div>
-      <div class="rainbow-button withdraw-btn">
+      <div class="rainbow-button withdraw-btn" @click="exchange">
         WITHDRAW
       </div>
     </div>
@@ -173,7 +248,7 @@
           Sale Token Amount
         </div>
         <div class="right">
-          <input type="text" placeholder="Enter">
+          <input type="text" v-model="this.exchangeValue" placeholder="Enter">
         </div>
       </div>
       <div class="input-box">
@@ -194,7 +269,7 @@
         </div>
         <input type="text" placeholder="Enter">
       </div>
-      <div class="rainbow-button withdraw-btn">
+      <div class="rainbow-button withdraw-btn" @click="exchange">
         EXCHANGE
       </div>
     </div>
@@ -207,6 +282,8 @@ export default {
   name: "exchangeFactory",
   data(){
     return{
+      withdrawAmount:0,
+      exchangeValue:0,
       isShowDialog:false,
       vaultBalance:0,
       daoInfo:{},
@@ -216,6 +293,13 @@ export default {
   },
   methods:{
     joinVault(){
+
+    },
+    exchange(){
+      this.$store.dispatch("creatTokenExchange/exchange",{value:this.exchangeValue})
+    },
+    withdraw(){
+      this.$store.dispatch("creatTokenExchange/exchange",{value:this.withdrawAmount})
 
     }
   }
@@ -279,16 +363,51 @@ export default {
     .btn-box{
       display: flex;
     }
-    .balance{
-      font-size: 30px;
-      font-weight: 700;
-      text-align: left;
-      color: #ec1676;
-      line-height: 35px;
+
+    .funds{
+      display: flex;
+      .item{
+        width: 380px;
+        height: 140px;
+        background: #f6f5fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin-right: 10px;
+        .name{
+          width: 163px;
+          font-size: 16px;
+          font-weight: 500;
+          text-align: left;
+          color: #999999;
+          line-height: 30px;
+        }
+        .value-box{
+          display: flex;
+          padding: 10px 0;
+          align-items: center;
+          .icon{
+            width: 22px;
+            height: 22px;
+          }
+          .value{
+            padding: 0 10px;
+            font-size: 26px;
+            font-weight: 700;
+            text-align: left;
+            color: #ec1676;
+            line-height: 35px;
+            span{
+              font-size: 20px;
+            }
+          }
+        }
+      }
+
     }
     .rainbow-button{
       margin-left: 10px;
       width: 120px;
+      height: 50px;
     }
   }
   .deposit-info-list{
